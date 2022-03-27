@@ -190,11 +190,21 @@ export default function Home(props) {
 }
 
 export async function getServerSideProps(context) {
-  const datas = await axios.get('/api/load');
-  return {
-    props: {
-      data: datas.data
-    }, 
+  try {
+    const datas = await axios.get('/api/load');
+    return {
+      props: {
+        data: datas.data
+      }, 
+    }
+  }
+
+  catch(err) {
+    return {
+      props: {
+        data: null
+      }, 
+    }
   }
   
 }
