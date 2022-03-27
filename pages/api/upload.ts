@@ -20,9 +20,15 @@ export default async function handler(req, res) {
         try {
             const result = await validateFile(files.myFile);
 
+            if(result.error) {
+                return res.json(result);
+            }
+
             //update the database
             await CSVModel.deleteMany({});
             await CSVModel.insertMany([...result.data]);
+
+           //await CSVModel.insertMany([{Recipient: 'aaaa'}]);
 
             return res.json(result);
         }

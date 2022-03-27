@@ -1,5 +1,9 @@
 export interface PropsRecieve {
     data :Column[];
+    staticProps: {
+        data: Column[];
+    }
+    hasError: boolean;
 }
 
 export interface Column {
@@ -13,9 +17,17 @@ export interface Column {
 }
 
 export default function Table(props :PropsRecieve) {
+    if(props.hasError)
+        return <div></div>;
+    
+    const datas = props.data != null && props.data.length > 0 ?
+        props.data :
+        props.staticProps.data;
+
     return (
         <table>
             <thead>
+                <tr><th>Stored in the database</th></tr>
                 <tr>
                     <th>Year</th>
                     <th>Rank</th>
@@ -27,14 +39,14 @@ export default function Table(props :PropsRecieve) {
                 </tr>
             </thead>
             <tbody>
-            { props.data.map((data :Column, index :number) => {
+            { datas.map((data :Column, index :number) => {
                 return (
                     <tr key={index}>
                         <td>{data.Year}</td>
                         <td>{data.Rank}</td>
-                        <td>{data.Career}</td>
-                        <td>{data.Country}</td>
                         <td>{data.Recipient}</td>
+                        <td>{data.Country}</td>
+                        <td>{data.Career}</td>
                         <td>{data.Tied}</td>
                         <td>{data.Title}</td>
                     </tr>
