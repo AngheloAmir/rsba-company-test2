@@ -195,3 +195,7 @@ export default function Home() {
     </div>
   )
 }
+
+/*
+You should not fetch an internal API route from getStaticProps — instead, you can write the fetch code in API route directly in getStaticProps.
+*/
