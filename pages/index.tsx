@@ -2,18 +2,25 @@ import Head from 'next/head'
 import React from 'react';
 import axios from 'axios';
 
+import Table from '../components/Table';
+
 //@ts-ignore
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
   const [appstate, setstate] = React.useState(null);
   const [uploadstate, setupload] = React.useState(0);
+  const [csverror, seterror] = React.useState([]);
+  const [csvdata, setdata] = React.useState([]);
 
   function onFileChange(event) {
     setstate( event.target.files[0] );
   };
 
   async function onFileUpload() {
+    if(appstate == null || appstate == undefined)
+      return;
+
     const formData = new FormData();
 
     formData.append(
@@ -29,8 +36,17 @@ export default function Home() {
         setupload( Math.round((event.loaded * 100) / event.total ));
       },
     };
-    await axios.post('http://localhost:3000/api/upload', formData, config);
-    
+
+    const response = await axios.post('http://localhost:3000/api/upload', formData, config);
+    if(response.data.error) {
+      seterror(response.data.error);
+      setdata([]);
+      alert('There is an error on the upload CSV');
+    }
+    else {
+      setdata(response.data.data);
+      seterror([]);
+    }
   };
 
   return (
@@ -55,7 +71,24 @@ export default function Home() {
           </div>
 
         </div>
+
+        { csverror.length > 0 &&
+          <div>
+            <h3 style={{color: 'red'}}> CSV Error </h3>
+            { csverror.map((error :string, index :number) => {
+              return (
+                <p key={index}> {error} </p>
+              )
+            })
+            }
+          </div>
+        }
+
+      <Table data={csvdata} />
+       
       </main>
+
+ 
     </div>
   )
 }
