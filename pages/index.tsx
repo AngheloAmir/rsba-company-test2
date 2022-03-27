@@ -7,7 +7,6 @@ import Table from '../components/Table';
 //@ts-ignore
 import styles from '../styles/Home.module.css'
 
-const primaryHost = 'rsba-company-test2-8ef51jc7m-angheloamir.vercel.app';
 
 export default function Home(props) {
   const [appstate, setstate] = React.useState(null);
@@ -42,7 +41,7 @@ export default function Home(props) {
       },
     };
 
-    const response = await axios.post(primaryHost + '/api/upload', formData, config);
+    const response = await axios.post('/api/upload', formData, config);
     if(response.data.error) {
       seterror(response.data.error);
       setdata([]);
@@ -55,23 +54,23 @@ export default function Home(props) {
 
   async function findYear() {
     if(selectv == '-ALL-') {
-      const response = await axios.get(primaryHost + '/api/load');
+      const response = await axios.get('/api/load');
       setdata(response.data.data);
       return;
     };
-    const response = await axios.post(primaryHost + '/api/byyear', {
+    const response = await axios.post('/api/byyear', {
       year: selectv
     });
     setdata(response.data.data);
   }
 
   async function topPerYear() {
-    const response = await axios.get(primaryHost + '/api/bytopyear');
+    const response = await axios.get('/api/bytopyear');
     setdata(response.data.data);
   }
 
   async function lookName() {
-    const response = await axios.post(primaryHost + '/api/name', {
+    const response = await axios.post('/api/name', {
       recipient: name
     });
 
@@ -82,7 +81,7 @@ export default function Home(props) {
   }
 
   async function lookCareer() {
-    const response = await axios.post(primaryHost + '/api/career', {
+    const response = await axios.post('/api/career', {
       career: career
     });
 
@@ -191,7 +190,7 @@ export default function Home(props) {
 }
 
 export async function getServerSideProps(context) {
-  const datas = await axios.get(primaryHost + 'api/load');
+  const datas = await axios.get('/api/load');
   return {
     props: {
       data: datas.data
