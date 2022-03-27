@@ -21,15 +21,6 @@ export default function Home() {
     setstate( event.target.files[0] );
   };
 
-  async function reload() {
-    const response = await axios.get('/api/load');
-    setdata(response.data.data);
-  }
-
-  React.useEffect(() => {
-    reload();
-  }, []);
-
   async function onFileUpload() {
     if(appstate == null || appstate == undefined)
       return;
@@ -121,8 +112,16 @@ export default function Home() {
             <h4>Uploading: {uploadstate}%</h4>
           </div>
         </div>
-
       <div>
+
+        <button
+          onClick={async () => {
+            const response = await axios.get('/api/load');
+            setdata(response.data.data);
+          }}
+        >Refresh</button>
+
+
         <label>Show Rank In Year:</label>
         <select name="year" id="year"
           value={selectv} 
