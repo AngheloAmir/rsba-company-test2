@@ -1,8 +1,5 @@
 export interface PropsRecieve {
     data :Column[];
-    staticProps: {
-        data: Column[];
-    }
     hasError: boolean;
 }
 
@@ -21,8 +18,9 @@ export default function Table(props :PropsRecieve) {
         return <div></div>;
     
     const datas = props.data != null && props.data.length > 0 ?
-        props.data :
-        props.staticProps.data;
+        props.data
+        :
+        [];
 
     return (
         <table>

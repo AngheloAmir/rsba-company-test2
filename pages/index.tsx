@@ -8,7 +8,7 @@ import Table from '../components/Table';
 import styles from '../styles/Home.module.css'
 
 
-export default function Home(props) {
+export default function Home() {
   const [appstate, setstate] = React.useState(null);
   const [uploadstate, setupload] = React.useState(0);
   const [csverror, seterror] = React.useState([]);
@@ -20,6 +20,15 @@ export default function Home(props) {
   function onFileChange(event) {
     setstate( event.target.files[0] );
   };
+
+  async function reload() {
+    const response = await axios.get('/api/load');
+    setdata(response.data.data);
+  }
+
+  React.useEffect(() => {
+    reload();
+  }, []);
 
   async function onFileUpload() {
     if(appstate == null || appstate == undefined)
@@ -173,7 +182,6 @@ export default function Home(props) {
 
       <Table
         data={csvdata}
-        staticProps={props.data}
         hasError={csverror.length > 0}
       />
        
@@ -187,24 +195,4 @@ export default function Home(props) {
  <br />
     </div>
   )
-}
-
-export async function getServerSideProps(context) {
-  try {
-    const datas = await axios.get('/api/load');
-    return {
-      props: {
-        data: datas.data
-      }, 
-    }
-  }
-
-  catch(err) {
-    return {
-      props: {
-        data: null
-      }, 
-    }
-  }
-  
 }
