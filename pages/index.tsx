@@ -190,7 +190,7 @@ export default function Home(props) {
   )
 }
 
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   const datas = await axios.get('http://localhost:3000/api/load');
   return {
     props: {
