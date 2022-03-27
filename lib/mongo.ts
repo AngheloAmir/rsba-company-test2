@@ -42,13 +42,8 @@ export default async function ConnectToDatabase() {
 
 import mongoose from 'mongoose'
 
-const MONGODB_URI = process.env.MONGODB_URI
+const MONGODB_URI = "mongodb+srv://galaDevAdmin:OwOGalaDevAdmin17@clusterdev.ur7or.mongodb.net/RSBATest?retryWrites=true&w=majority";
 
-if (!MONGODB_URI) {
-  throw new Error(
-    'Please define the MONGODB_URI environment variable inside .env.local'
-  )
-}
 
 /**
  * Global is used here to maintain a cached connection across hot reloads
