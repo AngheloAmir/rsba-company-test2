@@ -16,6 +16,7 @@ export default function Home() {
   const [selectv, setselect] = React.useState('-ALL-');
   const [name , setname] = React.useState('');
   const [career , setcareer] = React.useState('');
+  const [country , setcountry] = React.useState('');
 
   function onFileChange(event) {
     setstate( event.target.files[0] );
@@ -98,6 +99,17 @@ export default function Home() {
       alert('Name does not match to any save Career');
     else
       setdata(response.data.data);
+  } //lookCountry
+
+  async function lookCountry() {
+    const response = await axios.post('/api/country', {
+      country: country
+    });
+
+    if(response.data.data.length == 0)
+      alert('Name does not match to any save Country');
+    else
+      setdata(response.data.data);
   }
 
   return (
@@ -156,6 +168,12 @@ export default function Home() {
         <div>
           <input type='text' onChange={e => setname(e.target.value)} />
           <button onClick={lookName}>Look up by name</button>
+        </div>
+
+        <br />
+        <div>
+          <input type='text' onChange={e => setcountry(e.target.value)} />
+          <button onClick={lookCountry}>Look up by Country</button>
         </div>
 
         <br />
