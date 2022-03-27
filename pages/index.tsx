@@ -191,7 +191,7 @@ export default function Home(props) {
 }
 
 export async function getServerSideProps(context) {
-  const datas = await axios.get('http://localhost:3000/api/load');
+  const datas = await axios.get(primaryHost + 'api/load');
   return {
     props: {
       data: datas.data
